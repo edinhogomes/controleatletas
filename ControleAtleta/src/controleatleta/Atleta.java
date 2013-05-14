@@ -13,7 +13,7 @@ public class Atleta {
     private Double peso;
     private String nomePai;
     private String nomeMae;
-    private char sexo;
+    private Sexo sexo;
     private String rg;
     private String cpf;
     
@@ -94,11 +94,11 @@ public class Atleta {
         this.rg = rg;
     }
 
-    public char getSexo() {
+    public Sexo getSexo() {
         return sexo;
     }
 
-    public void setSexo(char sexo) {
+    public void setSexo(Sexo sexo) {
         this.sexo = sexo;
     }
 

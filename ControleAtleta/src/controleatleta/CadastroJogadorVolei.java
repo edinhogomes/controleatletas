@@ -12,14 +12,14 @@ import javax.swing.table.DefaultTableModel;
 
 public class CadastroJogadorVolei extends javax.swing.JFrame {
 
-    private final byte SEXO_MASCULINO_INDICE = 0;
-    private final byte SEXO_FEMININO_INDICE = 1;
-    private final char SEXO_MASCULINO_VALOR = 'M';
-    private final char SEXO_FEMININO_VALOR = 'F';
-    private final byte CATEGORIA_AMADOR_INDICE = 0;
-    private final byte CATEGORIA_PROFISSIONAL_INDICE = 1;
-    private final char CATEGORIA_AMADOR_VALOR = 'A';
-    private final char CATEGORIA_PROFISSIONAL_VALOR = 'P';
+//    private final byte SEXO_MASCULINO_INDICE = 0;
+//    private final byte SEXO_FEMININO_INDICE = 1;
+//    private final char SEXO_MASCULINO_VALOR = 'M';
+//    private final char SEXO_FEMININO_VALOR = 'F';
+//    private final byte CATEGORIA_AMADOR_INDICE = 0;
+//    private final byte CATEGORIA_PROFISSIONAL_INDICE = 1;
+//    private final char CATEGORIA_AMADOR_VALOR = 'A';
+//    private final char CATEGORIA_PROFISSIONAL_VALOR = 'P';
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private ControleJogadorVolei controleJogadorVolei;
     private JogadorVolei umJogadorVolei;
@@ -59,6 +59,8 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
         jTextFieldPeso.setText("0.0");
         jTextFieldRg.setText(null);
         jTextFieldAlturaBloqueio.setText("0.0");
+        jTextFieldApelido.setText(null);
+        jTextFieldNacionalidade.setText(null);
         jTextFieldPosicao.setText(null);
         jTextFieldLateralidade.setText(null);
         telefonesListModel.clear();
@@ -73,7 +75,7 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
 
         jTextFieldAltura.setText(Double.toString(umJogadorVolei.getAltura()));
         jTextFieldBairro.setText(umJogadorVolei.getEndereco().getBairro());
-        jTextFieldApelido.setText(Double.toString(umJogadorVolei.getPeso()));
+        jTextFieldApelido.setText(umJogadorVolei.getApelido());
         jTextFieldCep.setText(umJogadorVolei.getEndereco().getCep());
         jTextFieldCidade.setText(umJogadorVolei.getEndereco().getCidade());
         jTextFieldComplemento.setText(umJogadorVolei.getEndereco().getComplemento());
@@ -93,6 +95,8 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
         jTextFieldPais.setText(umJogadorVolei.getEndereco().getPais());
         jTextFieldPeso.setText(Double.toString(umJogadorVolei.getPeso()));
         jTextFieldRg.setText(umJogadorVolei.getRg());
+        jTextFieldApelido.setText(umJogadorVolei.getApelido());
+        jTextFieldNacionalidade.setText(umJogadorVolei.getNacionalidade());
         jTextFieldAlturaBloqueio.setText(Double.toString(umJogadorVolei.getAlturaBloqueio()));
         jTextFieldPosicao.setText(umJogadorVolei.getPosicao());
         jTextFieldLateralidade.setText(umJogadorVolei.getLateralidade());
@@ -109,21 +113,23 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
             premiacaoListModel.addElement(p);
         }
 
+
         switch (umJogadorVolei.getSexo()) {
-            case SEXO_MASCULINO_VALOR:
-                jComboBoxSexo.setSelectedIndex(SEXO_MASCULINO_INDICE);
+            case MASCULINO:
+                jComboBoxSexo.setSelectedIndex(Sexo.MASCULINO.getIndice());
                 break;
-            case SEXO_FEMININO_VALOR:
-                jComboBoxSexo.setSelectedIndex(SEXO_FEMININO_INDICE);
+            case FEMININO:
+                jComboBoxSexo.setSelectedIndex(Sexo.FEMININO.getIndice());
                 break;
         }
 
+
         switch (umJogadorVolei.getCategoria()) {
-            case CATEGORIA_AMADOR_VALOR:
-                jComboBoxCategoria.setSelectedIndex(CATEGORIA_AMADOR_INDICE);
+            case AMADOR:
+                jComboBoxCategoria.setSelectedIndex(CategoriaJogadorVolei.AMADOR.getIndice());
                 break;
-            case CATEGORIA_PROFISSIONAL_VALOR:
-                jComboBoxCategoria.setSelectedIndex(CATEGORIA_PROFISSIONAL_INDICE);
+            case PROFISSIONAL:
+                jComboBoxCategoria.setSelectedIndex(CategoriaJogadorVolei.PROFISSIONAL.getIndice());
                 break;
         }
 
@@ -208,6 +214,8 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
         jTextFieldAlturaBloqueio.setEnabled(modoAlteracao);
         jTextFieldPosicao.setEnabled(modoAlteracao);
         jTextFieldLateralidade.setEnabled(modoAlteracao);
+        jTextFieldApelido.setEnabled(modoAlteracao);
+        jTextFieldNacionalidade.setEnabled(modoAlteracao);
         jButtonNovo.setEnabled(modoAlteracao == false);
         jButtonAlterar.setEnabled(modoAlteracao == false && registroSelecionado == true);
         jButtonExcluir.setEnabled(modoAlteracao == false && registroSelecionado == true);
@@ -284,22 +292,41 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
         umJogadorVolei.setAlturaBloqueio(Double.parseDouble(jTextFieldAlturaBloqueio.getText()));
         umJogadorVolei.setPosicao(jTextFieldPosicao.getText());
         umJogadorVolei.setLateralidade(jTextFieldLateralidade.getText());
+        umJogadorVolei.setApelido(jTextFieldApelido.getText());
+        umJogadorVolei.setNacionalidade(jTextFieldNacionalidade.getText());
 
-        switch (jComboBoxSexo.getSelectedIndex()) {
-            case SEXO_MASCULINO_INDICE:
-                umJogadorVolei.setSexo(SEXO_MASCULINO_VALOR);
+        Sexo sexo = Sexo.retornaSexoPeloIndice(jComboBoxSexo.getSelectedIndex());
+
+        /*
+         *       if (jComboBoxSexo.getSelectedIndex() == 0) {
+        
+         umJogadorVolei.setSexo(Sexo.MASCULINO);
+            
+         } else {
+        
+         umJogadorVolei.setSexo(Sexo.FEMININO);
+         }
+         * 
+         */
+
+        switch (sexo) {
+            case MASCULINO:
+                umJogadorVolei.setSexo(Sexo.MASCULINO);
                 break;
-            case SEXO_FEMININO_INDICE:
-                umJogadorVolei.setSexo(SEXO_FEMININO_VALOR);
+            case FEMININO:
+                umJogadorVolei.setSexo(Sexo.FEMININO);
                 break;
         }
 
-        switch (jComboBoxCategoria.getSelectedIndex()) {
-            case CATEGORIA_AMADOR_INDICE:
-                umJogadorVolei.setCategoria(CATEGORIA_AMADOR_VALOR);
+
+        CategoriaJogadorVolei categoria = CategoriaJogadorVolei.retornaCategoriaPeloIndice(jComboBoxSexo.getSelectedIndex());
+
+        switch (categoria) {
+            case AMADOR:
+                umJogadorVolei.setCategoria(CategoriaJogadorVolei.AMADOR);
                 break;
-            case CATEGORIA_PROFISSIONAL_INDICE:
-                umJogadorVolei.setCategoria(CATEGORIA_PROFISSIONAL_VALOR);
+            case PROFISSIONAL:
+                umJogadorVolei.setCategoria(CategoriaJogadorVolei.PROFISSIONAL);
                 break;
         }
 
@@ -326,7 +353,6 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
     private void exibirInformacao(String info) {
         JOptionPane.showMessageDialog(this, info, "Atenção", JOptionPane.INFORMATION_MESSAGE);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -477,6 +503,11 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
         });
 
         jComboBoxSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Masculino", "Feminino" }));
+        jComboBoxSexo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxSexoActionPerformed(evt);
+            }
+        });
 
         jTextFieldDataNascimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -900,7 +931,6 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
         }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBoxCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCategoriaActionPerformed
-
     }//GEN-LAST:event_jComboBoxCategoriaActionPerformed
 
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
@@ -931,7 +961,6 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldPesoPropertyChange
 
     private void jTextFieldPesoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldPesoFocusLost
-  
     }//GEN-LAST:event_jTextFieldPesoFocusLost
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
@@ -1010,6 +1039,9 @@ private void jTextFieldDataNascimentoActionPerformed(java.awt.event.ActionEvent 
 // TODO add your handling code here:
 }//GEN-LAST:event_jTextFieldDataNascimentoActionPerformed
 
+    private void jComboBoxSexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSexoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxSexoActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdicionarPremiacao;
     private javax.swing.JButton jButtonAdicionarTelefone;

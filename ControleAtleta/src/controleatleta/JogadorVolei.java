@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class JogadorVolei extends Atleta {
 
-    private char categoria; // A=Amador P=Profissional
+    private CategoriaJogadorVolei categoria; // A=Amador P=Profissional
     private ArrayList<Premiacao> premiacoes;
     private String nacionalidade; // País de nascimento
     private String apelido;
@@ -19,11 +19,11 @@ public class JogadorVolei extends Atleta {
         super(nome);
     }
 
-    public char getCategoria() {
+    public CategoriaJogadorVolei getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(char categoria) {
+    public void setCategoria(CategoriaJogadorVolei categoria) {
         this.categoria = categoria;
     }
 
