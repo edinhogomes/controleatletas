@@ -19,13 +19,20 @@ public final class ValidacaoCadastroJogadorVolei {
     public ValidacaoCadastroJogadorVolei() {
     }
 
-    private String mensagemErro;
+    private String mensagemErro = "";
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     //private javax.swing.JLabel JLabelDoCampo;
     
         public String getMensagemErro() {
-        return mensagemErro;
-    }
+            if(mensagemErro.isEmpty()){
+                
+                throw new IllegalArgumentException("nao ha mensagem a ser exibida.");
+                
+            } else {
+                
+                return mensagemErro;
+            }
+        }
 
     public boolean validarSeCampoTipoTextoVazio(JTextField textFieldCampoTexto, JLabel labelCampoTexto) {
 
