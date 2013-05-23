@@ -27,6 +27,7 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
     private boolean novoRegistro;
     private DefaultListModel telefonesListModel;
     private DefaultListModel premiacaoListModel;
+    private ValidacaoCadastroJogadorVolei validacao = new ValidacaoCadastroJogadorVolei();
 
     public CadastroJogadorVolei() {
         initComponents();
@@ -136,58 +137,57 @@ public class CadastroJogadorVolei extends javax.swing.JFrame {
     }
 
     private boolean validarCampos() {
-        if (jTextFieldNome.getText().trim().length() == 0) {
-            this.exibirInformacao("O valor do campo 'Nome' não foi informado.");
-            jTextFieldNome.requestFocus();
-            return false;
-        }
-        if (jTextFieldDataNascimento.getText().length() != 0) {
-            try {
-                dateFormat.parse(jTextFieldDataNascimento.getText());
-            } catch (ParseException ex) {
-                this.exibirInformacao("O valor do campo 'Data de Nascimento' é inválido.");
-                jTextFieldDataNascimento.requestFocus();
+
+        if (validacao.validarSeCampoTipoTextoVazio(jTextFieldNome, jLabelNome)) {
+
+            if (validacao.validarCampoTextoData(jTextFieldDataNascimento, jLabelDataNascimento)) {
+
+                if (validacao.validarCampoTextoNumericoDouble(jTextFieldAltura, jLabelAltura)) {
+
+                    if (validacao.validarCampoTextoNumericoDouble(jTextFieldPeso, jLabelPeso)) {
+
+                        if (validacao.validarCampoTextoNumericoDouble(jTextFieldPeso, jLabelPeso)) {
+
+                            if (validacao.validarCampoTextoNumeroCasa(jTextFieldNumero, jLabelNumero)) {
+
+                                if (validacao.validarCampoTextoNumericoDouble(jTextFieldAlturaAtaque, jLabelAlturaAtaque)) {
+                                    if (validacao.validarCampoTextoNumericoDouble(jTextFieldAlturaBloqueio, jLabelAlturaBloqueio)) {
+                                        return true;
+                                    } else {
+                                        exibirInformacao(validacao.getMensagemErro());
+                                        return false;
+                                    }
+                                } else {
+                                    exibirInformacao(validacao.getMensagemErro());
+                                    return false;
+                                }
+                            } else {
+                                exibirInformacao(validacao.getMensagemErro());
+                                return false;
+                            }
+
+                        } else {
+                            exibirInformacao(validacao.getMensagemErro());
+                            return false;
+                        }
+                    } else {
+                        exibirInformacao(validacao.getMensagemErro());
+                        return false;
+                    }
+                } else {
+                    exibirInformacao(validacao.getMensagemErro());
+                    return false;
+                }
+
+            } else {
+                exibirInformacao(validacao.getMensagemErro());
                 return false;
             }
-        }
-        try {
-            Double.parseDouble(jTextFieldAltura.getText());
-        } catch (Exception ex) {
-            this.exibirInformacao("O valor do campo 'Altura' é inválido.");
-            jTextFieldAltura.requestFocus();
+        } else {
+            exibirInformacao(validacao.getMensagemErro());
             return false;
         }
-        try {
-            Double.parseDouble(jTextFieldPeso.getText());
-        } catch (Exception ex) {
-            this.exibirInformacao("O valor do campo 'Peso' é inválido.");
-            jTextFieldPeso.requestFocus();
-            return false;
-        }
-        if (!jTextFieldNumero.getText().equals("")) {
-            try {
-                Integer.parseInt(jTextFieldNumero.getText());
-            } catch (Exception ex) {
-                this.exibirInformacao("O valor do campo 'Número' é inválido.");
-                jTextFieldNumero.requestFocus();
-                return false;
-            }
-        }
-        try {
-            Double.parseDouble(jTextFieldAlturaAtaque.getText());
-        } catch (Exception ex) {
-            this.exibirInformacao("O valor do campo 'Altura do Ataque' é inválido.");
-            jTextFieldAlturaAtaque.requestFocus();
-            return false;
-        }
-        try {
-            Double.parseDouble(jTextFieldAlturaBloqueio.getText());
-        } catch (Exception ex) {
-            this.exibirInformacao("O valor do campo 'Altura do Bloqueio' é inválido.");
-            jTextFieldAlturaBloqueio.requestFocus();
-            return false;
-        }
-        return true;
+
     }
 
     private void habilitarDesabilitarCampos() {

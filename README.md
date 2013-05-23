@@ -2,7 +2,7 @@ Controle de Atetlas
 ===================
 
 Sistema de cadastro de atletas (para práticas de conceitos de orientação a
-objetos e técnicas de programação).
+objetos e técnicas de programação). Atletas do vôlei.
 
 
 Desenvolvimento
